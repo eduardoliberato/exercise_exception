@@ -1,14 +1,16 @@
 package entities;
 
+import exception.accountException;
+
 public class account {
-    
+
     Integer number;
     String holder;
     Double balance;
     Double withdrawLimit;
 
     public account() {
-        
+
     }
 
     public account(Integer number, String holder, Double balance, Double withdrawLimit) {
@@ -38,24 +40,30 @@ public class account {
         return balance;
     }
 
-    
     public Double getWithdrawLimit() {
         return withdrawLimit;
     }
 
-    public void deposit(Double amount){
+    public void deposit(Double amount) {
         balance = balance + amount;
     }
 
-    public void withdraw(Double amount){
-        balance = balance - amount;
+    public Double withdraw(Double withdraw) {
+        if (balance == 0) {
+            throw new accountException("Your balance is zero, you can't do a withdraw without any amount in your account");
+        }
+        if(withdraw > balance ){
+            throw new accountException("Withdraw error: Not enough balance");
+        }
+        if (withdraw > withdrawLimit) {
+            throw new accountException("You can't do a withdraw bigger than your withdraw limit");
+        }
+        return balance = balance - withdraw;
     }
 
-    
-
-    
-
-
-
+    @Override
+    public String toString(){
+       return "New balance: " + balance;
+    }
 
 }
